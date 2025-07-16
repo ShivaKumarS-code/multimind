@@ -18,8 +18,9 @@ import {
 } from "@/components/ui/form";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -27,7 +28,7 @@ const formSchema = z.object({
 })
 
 export const SignInView = () => {
-  const router = useRouter()
+  const router  = useRouter()
   const [error,setError] = useState<string | null>(null)
   const [pending, setPending] = useState(false)
 
@@ -44,7 +45,8 @@ export const SignInView = () => {
      setPending(true)
      const { error } = authClient.signIn.email({
         email: data.email,
-        password: data.password
+        password: data.password,
+        callbackURL: "/"
      }, {
        onSuccess: () => {
           setPending(false)
@@ -57,6 +59,25 @@ export const SignInView = () => {
      })
 
   }
+
+  
+      const social = (provider: "github" | "google") => {
+       setError(null)
+       setPending(true)
+       const { error } = authClient.signIn.social({
+          provider: provider,
+          callbackURL: "/"
+       }, {
+         onSuccess: () => {
+            setPending(false)
+         },
+         onError: ({error}) => {
+            setPending(false)
+            setError(error.message)
+         }
+       })
+  
+    }
 
 
   return (
@@ -124,11 +145,21 @@ export const SignInView = () => {
                          </span>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
-                         <Button disabled={pending} type="button" variant="outline" className="w-full">
-                            Google
+                         <Button 
+                         disabled={pending} 
+                         type="button" 
+                         onClick={()=> social("google")} 
+                         variant="outline" 
+                         className="w-full">
+                            <FaGoogle />
                          </Button>
-                         <Button disabled={pending} type="button" variant="outline" className="w-full">
-                            Github
+                         <Button 
+                         disabled={pending} 
+                         onClick={()=> social("github")} 
+                         type="button" 
+                         variant="outline" 
+                         className="w-full">
+                            <FaGithub />
                          </Button>
                       </div>
                       <div className="text-center text-sm">
