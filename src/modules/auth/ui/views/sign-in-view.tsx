@@ -110,9 +110,7 @@ export const SignInView = () => {
                             )}
                          
                          />
-
                       </div>
-
                       <div className="grid gap-3">
                          <FormField 
                             control={form.control}
@@ -125,10 +123,8 @@ export const SignInView = () => {
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
-                            )}
-                         
+                            )} 
                          />
-
                       </div>
                       {!!error  && (
                         <Alert className="bg-destructive/10 border-none">
@@ -169,11 +165,7 @@ export const SignInView = () => {
                   </div>
                </form>
             </Form>
-           
-
-
-
-               <div className="bg-radial from-green-700 to-green-900 relate hidden md:flex flex-col gap-y-4 items-center justify-center">
+               <div className="bg-radial from-sidebar-accent to-sidebar relative hidden md:flex flex-col gap-y-4 items-center justify-center">
                  <img src="/logo.svg" alt="Image" className="h-[92px] w-[92px]" />
                   <p className="text-2xl font-semibold text-white">
                      Multi∞Mind
